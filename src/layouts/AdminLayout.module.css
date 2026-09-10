@@ -3,8 +3,11 @@
   min-height: 100vh;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  position: relative;
+  overflow-x: hidden;
 }
 
+/* Sidebar for Desktop */
 .sidebar {
   width: 260px;
   background-color: var(--bg-secondary);
@@ -15,13 +18,16 @@
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 10;
+  z-index: 100;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  overflow-y: auto;
 }
 
 .brand {
   height: 70px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 var(--spacing-lg);
   border-bottom: 1px solid var(--border-color);
 }
@@ -31,6 +37,26 @@
   font-size: 1.25rem;
   letter-spacing: -0.5px;
   color: var(--accent);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.closeMobileSidebar {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.closeMobileSidebar:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
 }
 
 .nav {
@@ -38,28 +64,32 @@
   padding: var(--spacing-md) 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .navLink {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: 10px var(--spacing-lg);
   color: var(--text-secondary);
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+  text-decoration: none;
   transition: all var(--transition-fast);
+  border-left: 3px solid transparent;
 }
 
-.navLink:hover, .activeLink {
+.navLink:hover {
   color: var(--text-primary);
   background-color: var(--bg-tertiary);
 }
 
 .activeLink {
+  color: var(--accent) !important;
+  background-color: rgba(212, 175, 55, 0.08);
   border-left: 3px solid var(--accent);
-  padding-left: calc(var(--spacing-lg) - 3px);
+  font-weight: 700;
 }
 
 .footerActions {
@@ -67,19 +97,22 @@
   border-top: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .logoutBtn {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: 10px var(--spacing-lg);
   color: var(--danger);
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   width: 100%;
   text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
   transition: background-color var(--transition-fast);
 }
 
@@ -87,12 +120,15 @@
   background-color: rgba(239, 68, 68, 0.1);
 }
 
+/* Main Content Area */
 .mainContent {
   margin-left: 260px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: calc(100% - 260px);
+  max-width: 100%;
 }
 
 .topbar {
@@ -103,11 +139,47 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--spacing-lg);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  gap: 12px;
+}
+
+.topbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menuToggle {
+  display: none;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.menuToggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .topbarLeft h2 {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .adminProfile {
@@ -130,44 +202,104 @@
 }
 
 .name {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
+  line-height: 1.2;
 }
 
 .role {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+  font-size: 0.72rem;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .viewWrapper {
   padding: var(--spacing-lg);
   flex-grow: 1;
-  max-width: 1200px;
+  max-width: 1280px;
   width: 100%;
   margin: 0 auto;
 }
 
+.backdrop {
+  display: none;
+}
+
+/* Responsive Breakpoints */
 @media (max-width: 992px) {
   .sidebar {
-    width: 70px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 280px;
+    max-width: 82vw;
+    transform: translateX(-100%);
+    box-shadow: none;
+    z-index: 1000;
   }
-  .sidebar span {
-    display: none;
+
+  .sidebarOpen {
+    transform: translateX(0);
+    box-shadow: 12px 0 35px rgba(0, 0, 0, 0.7);
   }
-  .brand {
-    justify-content: center;
-    padding: 0;
+
+  .closeMobileSidebar {
+    display: flex;
   }
-  .logo span {
-    display: none;
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 999;
   }
-  .logo::after {
-    content: 'TF';
-  }
+
   .mainContent {
-    margin-left: 70px;
+    margin-left: 0;
+    width: 100%;
   }
-  .activeLink {
-    border-left: 3px solid var(--accent);
+
+  .menuToggle {
+    display: flex;
+  }
+
+  .topbar {
+    padding: 0 1rem;
+    height: 62px;
+  }
+
+  .topbarLeft h2 {
+    font-size: 1.1rem;
+  }
+
+  .viewWrapper {
+    padding: 1rem 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .topbar {
+    padding: 0 0.75rem;
+  }
+
+  .topbarLeft h2 {
+    display: none;
+  }
+
+  .profileDetails {
+    display: none;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .viewWrapper {
+    padding: 0.75rem 0.5rem;
   }
 }

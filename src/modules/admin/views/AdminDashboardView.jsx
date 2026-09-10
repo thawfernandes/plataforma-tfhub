@@ -483,22 +483,24 @@ export default function AdminDashboardView() {
         <div className={styles.splitView}>
           <div className="card">
             <h3>Gerenciar Produtos</h3>
-            <table className={styles.table}>
-              <thead><tr><th>Nome</th><th>Tipo</th><th>Preço</th><th>Ações</th></tr></thead>
-              <tbody>
-                {products.map(prod => (
-                  <tr key={prod.id}>
-                    <td>{prod.name}</td>
-                    <td style={{ textTransform: 'capitalize' }}>{prod.type}</td>
-                    <td>R$ {prod.price.toFixed(2)}</td>
-                    <td>
-                      <button onClick={() => handleEdit(prod, 'product')} className={styles.editBtn}><Edit2 size={16} /></button>
-                      <button onClick={() => handleDelete('products', prod.id)} className={styles.deleteBtn}><Trash2 size={16} /></button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className={styles.tableContainer}>
+              <table className={styles.table}>
+                <thead><tr><th>Nome</th><th>Tipo</th><th>Preço</th><th>Ações</th></tr></thead>
+                <tbody>
+                  {products.map(prod => (
+                    <tr key={prod.id}>
+                      <td>{prod.name}</td>
+                      <td style={{ textTransform: 'capitalize' }}>{prod.type}</td>
+                      <td>R$ {prod.price.toFixed(2)}</td>
+                      <td>
+                        <button onClick={() => handleEdit(prod, 'product')} className={styles.editBtn}><Edit2 size={16} /></button>
+                        <button onClick={() => handleDelete('products', prod.id)} className={styles.deleteBtn}><Trash2 size={16} /></button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
           <div className="card">
             <h3>{isEditing ? 'Editar Produto' : 'Adicionar Produto'}</h3>
@@ -613,46 +615,48 @@ export default function AdminDashboardView() {
             {filteredOrders.length === 0 ? (
               <p style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Nenhuma solicitação encontrada.</p>
             ) : (
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>Cliente</th>
-                    <th>Produto</th>
-                    <th>Valor</th>
-                    <th>Data</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredOrders.map(order => (
-                    <tr key={order.id}>
-                      <td>
-                        <strong>{order.clientName}</strong>
-                        <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{order.clientEmail}</span>
-                      </td>
-                      <td>{order.items[0]?.name}</td>
-                      <td>R$ {order.total.toFixed(2)}</td>
-                      <td>{new Date(order.createdAt).toLocaleDateString('pt-BR')}</td>
-                      <td>
-                        <span className={`${styles.statusBadge} ${getStatusBadgeClass(order.status)}`}>
-                          {order.status}
-                        </span>
-                      </td>
-                      <td>
-                        <button 
-                          className="btn btn-secondary btn-sm" 
-                          style={{ padding: '4px 8px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-                          onClick={() => setSelectedOrder(order)}
-                        >
-                          <Eye size={14} />
-                          <span>Detalhes</span>
-                        </button>
-                      </td>
+              <div className={styles.tableContainer}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Produto</th>
+                      <th>Valor</th>
+                      <th>Data</th>
+                      <th>Status</th>
+                      <th>Ações</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filteredOrders.map(order => (
+                      <tr key={order.id}>
+                        <td>
+                          <strong>{order.clientName}</strong>
+                          <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{order.clientEmail}</span>
+                        </td>
+                        <td>{order.items[0]?.name}</td>
+                        <td>R$ {order.total.toFixed(2)}</td>
+                        <td>{new Date(order.createdAt).toLocaleDateString('pt-BR')}</td>
+                        <td>
+                          <span className={`${styles.statusBadge} ${getStatusBadgeClass(order.status)}`}>
+                            {order.status}
+                          </span>
+                        </td>
+                        <td>
+                          <button 
+                            className="btn btn-secondary btn-sm" 
+                            style={{ padding: '4px 8px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                            onClick={() => setSelectedOrder(order)}
+                          >
+                            <Eye size={14} />
+                            <span>Detalhes</span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         </div>
@@ -677,7 +681,7 @@ export default function AdminDashboardView() {
             </div>
 
             <h4 style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '4px', color: 'var(--accent)', marginTop: '1rem' }}>Integração Resend (Notificações E-mail)</h4>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px' }}>
               <div>
                 <label className={styles.label}>Chave de API do Resend (API Key)</label>
                 <input type="password" placeholder="re_..." value={settingsForm.resendApiKey} onChange={e => setSettingsForm({...settingsForm, resendApiKey: e.target.value})} style={inputStyle} />
@@ -690,7 +694,7 @@ export default function AdminDashboardView() {
             <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '-8px' }}>Se a chave de API estiver vazia, o sistema rodará em modo simulação exibindo logs de disparos no console de desenvolvedor.</p>
 
             <h4 style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '4px', color: 'var(--accent)', marginTop: '1rem' }}>Integração Mercado Pago (PIX Automático)</h4>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px' }}>
               <div>
                 <label className={styles.label}>Mercado Pago Access Token</label>
                 <input type="password" placeholder="APP_USR-..." value={settingsForm.mercadoPagoAccessToken} onChange={e => setSettingsForm({...settingsForm, mercadoPagoAccessToken: e.target.value})} style={inputStyle} />
@@ -710,7 +714,7 @@ export default function AdminDashboardView() {
               Novos vídeos publicados no canal TF Hub aparecerão automaticamente na seção de Conteúdo do site e na Home.
               A API Key é opcional — sem ela o sistema usará conteúdo simulado (ideal para desenvolvimento e testes).
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '12px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px', marginBottom: '12px' }}>
               <div>
                 <label className={styles.label}>ID do Canal no YouTube</label>
                 <input
@@ -774,32 +778,34 @@ export default function AdminDashboardView() {
           {quotes.length === 0 ? (
             <p style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Nenhum orçamento solicitado ainda.</p>
           ) : (
-            <table className={styles.table}>
-              <thead><tr><th>Nome</th><th>Serviço</th><th>E-mail</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead>
-              <tbody>
-                {quotes.map(q => (
-                  <tr key={q.id}>
-                    <td>{q.clientName}</td>
-                    <td>{q.serviceName}</td>
-                    <td>{q.clientEmail}</td>
-                    <td>{new Date(q.createdAt).toLocaleDateString('pt-BR')}</td>
-                    <td>
-                      <span className={`${styles.statusBadge} ${q.status === 'approved' ? styles.statusApproved : styles.statusPending}`}>
-                        {q.status === 'pending' ? 'Em Análise' : 'Aprovado'}
-                      </span>
-                    </td>
-                    <td>
-                      {q.status === 'pending' && (
-                        <>
-                          <button onClick={() => handleUpdateQuoteStatus(q.id, 'approved')} className={styles.approveBtn} title="Aprovar"><Check size={16} /></button>
-                          <button onClick={() => handleUpdateQuoteStatus(q.id, 'rejected')} className={styles.deleteBtn} title="Rejeitar"><X size={16} /></button>
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className={styles.tableContainer}>
+              <table className={styles.table}>
+                <thead><tr><th>Nome</th><th>Serviço</th><th>E-mail</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead>
+                <tbody>
+                  {quotes.map(q => (
+                    <tr key={q.id}>
+                      <td>{q.clientName}</td>
+                      <td>{q.serviceName}</td>
+                      <td>{q.clientEmail}</td>
+                      <td>{new Date(q.createdAt).toLocaleDateString('pt-BR')}</td>
+                      <td>
+                        <span className={`${styles.statusBadge} ${q.status === 'approved' ? styles.statusApproved : styles.statusPending}`}>
+                          {q.status === 'pending' ? 'Em Análise' : 'Aprovado'}
+                        </span>
+                      </td>
+                      <td>
+                        {q.status === 'pending' && (
+                          <>
+                            <button onClick={() => handleUpdateQuoteStatus(q.id, 'approved')} className={styles.approveBtn} title="Aprovar"><Check size={16} /></button>
+                            <button onClick={() => handleUpdateQuoteStatus(q.id, 'rejected')} className={styles.deleteBtn} title="Rejeitar"><X size={16} /></button>
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}
@@ -808,20 +814,22 @@ export default function AdminDashboardView() {
         <div className={styles.splitView}>
           <div className="card">
             <h3>Gerenciar FAQ</h3>
-            <table className={styles.table}>
-              <thead><tr><th>Pergunta</th><th>Ações</th></tr></thead>
-              <tbody>
-                {faqs.map(f => (
-                  <tr key={f.id}>
-                    <td style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.question}</td>
-                    <td>
-                      <button onClick={() => handleEdit(f, 'faq')} className={styles.editBtn}><Edit2 size={16} /></button>
-                      <button onClick={() => handleDelete('faq', f.id)} className={styles.deleteBtn}><Trash2 size={16} /></button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className={styles.tableContainer}>
+              <table className={styles.table}>
+                <thead><tr><th>Pergunta</th><th>Ações</th></tr></thead>
+                <tbody>
+                  {faqs.map(f => (
+                    <tr key={f.id}>
+                      <td style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.question}</td>
+                      <td>
+                        <button onClick={() => handleEdit(f, 'faq')} className={styles.editBtn}><Edit2 size={16} /></button>
+                        <button onClick={() => handleDelete('faq', f.id)} className={styles.deleteBtn}><Trash2 size={16} /></button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
           <div className="card">
             <h3>{isEditing ? 'Editar FAQ' : 'Nova Pergunta'}</h3>
@@ -843,28 +851,30 @@ export default function AdminDashboardView() {
           {testimonials.length === 0 ? (
             <p style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Nenhum depoimento ainda.</p>
           ) : (
-            <table className={styles.table}>
-              <thead><tr><th>Nome</th><th>Depoimento</th><th>Status</th><th>Ações</th></tr></thead>
-              <tbody>
-                {testimonials.map(t => (
-                  <tr key={t.id}>
-                    <td>{t.name}</td>
-                    <td style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.content}</td>
-                    <td>
-                      <span className={`${styles.statusBadge} ${t.approved ? styles.statusApproved : styles.statusPending}`}>
-                        {t.approved ? 'Publicado' : 'Pendente'}
-                      </span>
-                    </td>
-                    <td>
-                      {!t.approved && (
-                        <button onClick={() => handleApproveTestimonial(t.id)} className={styles.approveBtn} title="Aprovar e publicar"><Check size={16} /></button>
-                      )}
-                      <button onClick={() => handleDelete('testimonials', t.id)} className={styles.deleteBtn} title="Excluir"><Trash2 size={16} /></button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className={styles.tableContainer}>
+              <table className={styles.table}>
+                <thead><tr><th>Nome</th><th>Depoimento</th><th>Status</th><th>Ações</th></tr></thead>
+                <tbody>
+                  {testimonials.map(t => (
+                    <tr key={t.id}>
+                      <td>{t.name}</td>
+                      <td style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.content}</td>
+                      <td>
+                        <span className={`${styles.statusBadge} ${t.approved ? styles.statusApproved : styles.statusPending}`}>
+                          {t.approved ? 'Publicado' : 'Pendente'}
+                        </span>
+                      </td>
+                      <td>
+                        {!t.approved && (
+                          <button onClick={() => handleApproveTestimonial(t.id)} className={styles.approveBtn} title="Aprovar e publicar"><Check size={16} /></button>
+                        )}
+                        <button onClick={() => handleDelete('testimonials', t.id)} className={styles.deleteBtn} title="Excluir"><Trash2 size={16} /></button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}
@@ -873,22 +883,24 @@ export default function AdminDashboardView() {
         <div className={styles.splitView}>
           <div className="card">
             <h3>Certificações e Reconhecimentos</h3>
-            <table className={styles.table}>
-              <thead><tr><th>Título</th><th>Categoria</th><th>Instituição</th><th>Ações</th></tr></thead>
-              <tbody>
-                {recognitions.map(rec => (
-                  <tr key={rec.id}>
-                    <td>{rec.title}</td>
-                    <td>{rec.category}</td>
-                    <td>{rec.institution}</td>
-                    <td>
-                      <button onClick={() => handleEdit(rec, 'recognition')} className={styles.editBtn}><Edit2 size={16} /></button>
-                      <button onClick={() => handleDelete('recognitions', rec.id)} className={styles.deleteBtn}><Trash2 size={16} /></button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className={styles.tableContainer}>
+              <table className={styles.table}>
+                <thead><tr><th>Título</th><th>Categoria</th><th>Instituição</th><th>Ações</th></tr></thead>
+                <tbody>
+                  {recognitions.map(rec => (
+                    <tr key={rec.id}>
+                      <td>{rec.title}</td>
+                      <td>{rec.category}</td>
+                      <td>{rec.institution}</td>
+                      <td>
+                        <button onClick={() => handleEdit(rec, 'recognition')} className={styles.editBtn}><Edit2 size={16} /></button>
+                        <button onClick={() => handleDelete('recognitions', rec.id)} className={styles.deleteBtn}><Trash2 size={16} /></button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
           <div className="card">
             <h3>{isEditing ? 'Editar Reconhecimento' : 'Novo Reconhecimento'}</h3>
@@ -932,54 +944,56 @@ export default function AdminDashboardView() {
             <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
               Todos os projetos com link recebem automaticamente uma captura de tela em tempo real.
             </p>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Preview</th>
-                  <th>Projeto</th>
-                  <th>Tipo / Cliente</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {portfolio.map(proj => {
-                  const previewImg = thumbnailService.getProjectImage(proj);
-                  return (
-                    <tr key={proj.id}>
-                      <td style={{ width: '60px' }}>
-                        {previewImg ? (
-                          <img 
-                            src={previewImg} 
-                            alt={proj.name} 
-                            style={{ width: '48px', height: '32px', objectFit: 'cover', borderRadius: '4px', border: '1px solid var(--border-color)' }} 
-                          />
-                        ) : (
-                          <div style={{ width: '48px', height: '32px', background: 'var(--bg-tertiary)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-                            TF
-                          </div>
-                        )}
-                      </td>
-                      <td>
-                        <strong>{proj.name}</strong>
-                        {proj.link && (
-                          <a href={proj.link} target="_blank" rel="noreferrer" style={{ display: 'block', fontSize: '0.75rem', color: 'var(--accent)', textDecoration: 'none' }}>
-                            {proj.link.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-                          </a>
-                        )}
-                      </td>
-                      <td>
-                        <span style={{ fontSize: '0.85rem' }}>{proj.projectType || proj.category}</span>
-                        {proj.client && <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)' }}>{proj.client}</span>}
-                      </td>
-                      <td>
-                        <button onClick={() => handleEdit(proj, 'portfolio')} className={styles.editBtn} title="Editar"><Edit2 size={16} /></button>
-                        <button onClick={() => handleDelete('portfolio', proj.id)} className={styles.deleteBtn} title="Excluir"><Trash2 size={16} /></button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className={styles.tableContainer}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Preview</th>
+                    <th>Projeto</th>
+                    <th>Tipo / Cliente</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {portfolio.map(proj => {
+                    const previewImg = thumbnailService.getProjectImage(proj);
+                    return (
+                      <tr key={proj.id}>
+                        <td style={{ width: '60px' }}>
+                          {previewImg ? (
+                            <img 
+                              src={previewImg} 
+                              alt={proj.name} 
+                              style={{ width: '48px', height: '32px', objectFit: 'cover', borderRadius: '4px', border: '1px solid var(--border-color)' }} 
+                            />
+                          ) : (
+                            <div style={{ width: '48px', height: '32px', background: 'var(--bg-tertiary)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                              TF
+                            </div>
+                          )}
+                        </td>
+                        <td>
+                          <strong>{proj.name}</strong>
+                          {proj.link && (
+                            <a href={proj.link} target="_blank" rel="noreferrer" style={{ display: 'block', fontSize: '0.75rem', color: 'var(--accent)', textDecoration: 'none' }}>
+                              {proj.link.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                            </a>
+                          )}
+                        </td>
+                        <td>
+                          <span style={{ fontSize: '0.85rem' }}>{proj.projectType || proj.category}</span>
+                          {proj.client && <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)' }}>{proj.client}</span>}
+                        </td>
+                        <td>
+                          <button onClick={() => handleEdit(proj, 'portfolio')} className={styles.editBtn} title="Editar"><Edit2 size={16} /></button>
+                          <button onClick={() => handleDelete('portfolio', proj.id)} className={styles.deleteBtn} title="Excluir"><Trash2 size={16} /></button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div className="card">
@@ -1126,7 +1140,7 @@ export default function AdminDashboardView() {
             <h2>Detalhes da Solicitação — ID: {selectedOrder.id}</h2>
             <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Recebido em: {new Date(selectedOrder.createdAt).toLocaleString('pt-BR')}</p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '1.5rem' }}>
               <div>
                 <h4 style={{ color: 'var(--accent)', borderBottom: '1px solid var(--border-color)', paddingBottom: '4px' }}>Cliente</h4>
                 <p><strong>Nome:</strong> {selectedOrder.clientName}</p>
