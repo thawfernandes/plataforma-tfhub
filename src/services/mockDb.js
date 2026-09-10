@@ -1,5 +1,7 @@
 import { INITIAL_RECOGNITIONS } from './recognitionsData';
 import { thumbnailService } from './thumbnailService';
+import thawannyImg from '../assets/thawanny.png';
+import fabianaImg from '../assets/fabiana.png';
 
 const INITIAL_MENUS = [
   { id: '1', label: 'Início', path: '/' },
@@ -243,7 +245,7 @@ const INITIAL_TEAM = [
     quote: 'O design é expressão e estratégia.',
     description: 'Designer, Storymaker e futura Engenheira de Software. Para mim, o design é expressão e estratégia. Utilizo minha base técnica em engenharia para dominar softwares de ponta e entregar um trabalho de excelência, transformando a criatividade em soluções reais e inovadoras para a TF.',
     specialties: ['Design Visual', 'Storymaking', 'UI/UX Design', 'Desenvolvimento Frontend'],
-    imageUrl: '/thawanny.png',
+    imageUrl: thawannyImg,
     featured: true
   },
   {
@@ -253,7 +255,7 @@ const INITIAL_TEAM = [
     quote: 'Contar histórias autênticas que conectam.',
     description: 'Storymaker e Videomaker, tenho uma grande paixão por fotografia e por contar histórias através da imagem. Gosto de desafios e de usar a criatividade para transformar ideias em algo que realmente toque as pessoas. Cada projeto é uma oportunidade de criar algo único e cheio de significado. Me dedico a desenvolver vídeos e roteiros que transmitam verdade, emoção e identidade. Na TF Hub, meu propósito é entregar conteúdos criativos, autênticos e que conectem de verdade.',
     specialties: ['Roteirização', 'Produção de Vídeo', 'Fotografia Criativa', 'Sound Design'],
-    imageUrl: '/fabiana.png',
+    imageUrl: fabianaImg,
     featured: true
   }
 ];
@@ -341,8 +343,10 @@ class MockDb {
       localStorage.setItem('tf_recognitions', JSON.stringify(INITIAL_RECOGNITIONS));
     }
 
-    // Safe migration: seed team if missing (existing installs)
-    if (!localStorage.getItem('tf_team')) {
+    // Safe migration: seed or update team if missing or using old relative string paths
+    const currentTeam = JSON.parse(localStorage.getItem('tf_team')) || [];
+    const isOldTeam = currentTeam.length === 0 || currentTeam.some(t => t.imageUrl === '/thawanny.png' || t.imageUrl === '/fabiana.png');
+    if (isOldTeam) {
       localStorage.setItem('tf_team', JSON.stringify(INITIAL_TEAM));
     }
 

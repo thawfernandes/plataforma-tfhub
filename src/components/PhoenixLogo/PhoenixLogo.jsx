@@ -1,4 +1,5 @@
 import React from 'react';
+import phoenixImg from '../../assets/phoenix.png';
 
 /**
  * PhoenixLogo — Logo fênix da TF Hub
@@ -10,7 +11,7 @@ import React from 'react';
 export default function PhoenixLogo({ size = 36, className = '' }) {
   return (
     <img
-      src="/phoenix.png"
+      src={phoenixImg}
       alt="TF Hub — Fênix"
       width={size}
       height={size}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { resolveAssetUrl } from '../../../utils/assetHelper';
 import styles from './TeamSection.module.css';
 
 export default function TeamSection({ team }) {
@@ -31,7 +32,7 @@ export default function TeamSection({ team }) {
                 <div className={styles.imageCol}>
                   <div className={styles.imageFrame}>
                     <img 
-                      src={member.imageUrl} 
+                      src={resolveAssetUrl(member.imageUrl)} 
                       alt={member.name} 
                       className={styles.memberImage} 
                     />

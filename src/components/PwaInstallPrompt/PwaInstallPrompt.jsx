@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { Smartphone, Download, CheckCircle2, X, Share2, ArrowUpRight, TabletSmartphone, Apple } from 'lucide-react';
+import phoenixImg from '../../assets/phoenix.png';
 import styles from './PwaInstallPrompt.module.css';
 
 export default function PwaInstallPrompt({ compact = false }) {
@@ -98,7 +98,7 @@ export default function PwaInstallPrompt({ compact = false }) {
           </button>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <img src="/phoenix.png" alt="TF Hub" style={{ width: '42px', height: '42px', borderRadius: '10px', objectFit: 'contain' }} />
+            <img src={phoenixImg} alt="TF Hub" style={{ width: '42px', height: '42px', borderRadius: '10px', objectFit: 'contain' }} />
             <div>
               <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--text-primary)' }}>Como Instalar no Celular</h3>
               <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)' }}>TF Hub Admin — Aplicativo Standalone</p>
@@ -214,7 +214,7 @@ export default function PwaInstallPrompt({ compact = false }) {
     <section className={styles.installCard}>
       <div className={styles.cardHeader}>
         <div className={styles.cardLeft}>
-          <img src="/phoenix.png" alt="TF Hub App" className={styles.appIcon} />
+          <img src={phoenixImg} alt="TF Hub App" className={styles.appIcon} />
           <div>
             <h3 className={styles.title}>
               <span>Painel no Celular (Android & iOS)</span>
