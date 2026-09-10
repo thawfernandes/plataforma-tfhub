@@ -32,13 +32,13 @@ export default function ClientDashboardView() {
 
   const loadDashboardData = () => {
     const allOrders = mockDb.get('orders') || [];
-    setOrders(allOrders.filter(o => o.userId === user.id));
+    setOrders(allOrders.filter(o => o.userId === user.id || (user.email && o.clientEmail?.toLowerCase() === user.email?.toLowerCase())));
 
     const allQuotes = mockDb.get('quotes') || [];
-    setQuotes(allQuotes.filter(q => q.userId === user.id));
+    setQuotes(allQuotes.filter(q => q.userId === user.id || (user.email && q.clientEmail?.toLowerCase() === user.email?.toLowerCase())));
 
     const allCerts = mockDb.get('certificates') || [];
-    setCertificates(allCerts.filter(c => c.studentName === user.name));
+    setCertificates(allCerts.filter(c => c.studentName?.toLowerCase() === user.name?.toLowerCase() || (user.email && c.email?.toLowerCase() === user.email?.toLowerCase())));
   };
 
   const getStatusBadgeClass = (status) => {
@@ -146,8 +146,16 @@ export default function ClientDashboardView() {
           <h2 className={styles.sectionTitle}>Minhas Compras & Projetos</h2>
           
           {orders.length === 0 ? (
-            <div className="card" style={{ padding: '3rem', textAlign: 'center' }}>
-              <p style={{ color: 'var(--text-secondary)' }}>Você ainda não realizou compras na plataforma.</p>
+            <div className="card" style={{ padding: '2.5rem', textAlign: 'center' }}>
+              <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📦</div>
+              <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem' }}>Nenhum pedido encontrado</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '420px', margin: '0 auto 1.5rem auto' }}>
+                Assim que você adquirir um sistema ou solicitar um serviço, o progresso, downloads e mensagens aparecerão aqui em tempo real.
+              </p>
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <a href="#/produtos" className="btn btn-primary btn-sm">Ver Sistemas e Produtos</a>
+                <a href="#/servicos" className="btn btn-secondary btn-sm">Solicitar Orçamento</a>
+              </div>
             </div>
           ) : (
             orders.map(order => (
@@ -283,10 +291,12 @@ export default function ClientDashboardView() {
                         href={order.items[0].metadata.downloadUrl} 
                         className="btn btn-primary" 
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         download
                       >
                         <Download size={16} />
-                        <span>Baixar Arquivo / Instalar</span>
+                        <span>Baixar Arquivo / Acessar Sistema</span>
                       </a>
                     ) : (
                       <span className={styles.notice} style={{ color: 'var(--success)', fontWeight: 600 }}>

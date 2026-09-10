@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Smartphone, Download, CheckCircle2, X, Share2, ArrowUpRight, TabletSmartphone, Apple } from 'lucide-react';
 import phoenixImg from '../../assets/phoenix.png';
 import styles from './PwaInstallPrompt.module.css';
