@@ -32,17 +32,20 @@ const INITIAL_PRODUCTS = [
     price: 29.90,
     promoPrice: null,
     status: 'active',
+    demoUrl: 'https://thawfernandes.github.io/TF-Arrecada-/login',
+    downloadUrl: 'https://thawfernandes.github.io/TF-Arrecada-/',
     description: 'Sistema desenvolvido para gerenciamento de rifas e arrecadações, oferecendo uma experiência simples, organizada e intuitiva.',
     images: ['https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&auto=format&fit=crop'],
     categories: ['Sistemas', 'Rifas'],
     seo: { title: 'TF Arrecada+ - Sistema de Rifas e Arrecadações', description: 'Sistema moderno e intuitivo para arrecadações.' },
     metadata: {
+      demoUrl: 'https://thawfernandes.github.io/TF-Arrecada-/login',
+      downloadUrl: 'https://thawfernandes.github.io/TF-Arrecada-/',
       fullDescription: 'O TF Arrecada+ é um sistema completo e de alta performance desenvolvido para quem deseja gerenciar campanhas de rifas, sorteios e arrecadações coletivas com total segurança, transparência e profissionalismo. Com interface limpa e intuitiva, facilita tanto a criação quanto a participação de doadores e compradores.',
       features: 'Criação de campanhas personalizadas com metas de arrecadação\nSistema automatizado de escolha de números de rifa\nIntegração simples para chaves PIX de recebimento\nPainel financeiro para controle de arrecadações em tempo real\nDesign totalmente responsivo para celulares e computadores\nExportação de relatórios de doadores e participantes em PDF e Excel',
       requirements: 'Servidor com suporte a PHP 8.1+ ou Node.js (conforme versão de build)\nBanco de dados MySQL 8.0+ ou PostgreSQL\nConexão com internet ativa para integração de notificações',
       faqs: 'Como recebo o sistema após a compra? | Após a aprovação do seu comprovante de pagamento, o instalador e código-fonte estarão liberados imediatamente na sua Área do Cliente.\nO sistema possui limite de campanhas ou rifas? | Não, o sistema é seu para uso vitalício, permitindo criar quantas campanhas e rifas desejar sem custos adicionais.\nComo é feito o suporte e atualizações? | Você terá 6 meses de suporte gratuito para instalação e configurações, além de atualizações gratuitas para correções de segurança.',
-      futureVersions: 'Integração automática com gateways de pagamento (Mercado Pago / Stripe)\nSistema de cotas premiadas e bilhetes da sorte automáticos\nDisparo de notificações automáticas via WhatsApp API',
-      downloadUrl: 'https://thawfernandes.github.io/TF-Arrecada-/'
+      futureVersions: 'Integração automática com gateways de pagamento (Mercado Pago / Stripe)\nSistema de cotas premiadas e bilhetes da sorte automáticos\nDisparo de notificações automáticas via WhatsApp API'
     }
   }
 ];
@@ -214,8 +217,8 @@ const INITIAL_PORTFOLIO = [
     client: 'TF Hub Crowdfunding',
     description: 'Sistema desenvolvido para gerenciamento de rifas e arrecadações, oferecendo uma experiência simples, organizada e intuitiva.',
     technologies: ['React', 'Node.js', 'Express', 'PostgreSQL', 'Payments Integration'],
-    images: [thumbnailService.getWebsiteScreenshot('https://thawfernandes.github.io/TF-Arrecada-/')],
-    link: 'https://thawfernandes.github.io/TF-Arrecada-/',
+    images: [thumbnailService.getWebsiteScreenshot('https://thawfernandes.github.io/TF-Arrecada-/login')],
+    link: 'https://thawfernandes.github.io/TF-Arrecada-/login',
     featured: true,
     year: 2026,
     status: 'Concluído',
@@ -405,13 +408,27 @@ class MockDb {
 
     // ─── Data-cleanup migrations (remove fictional/placeholder data) ──────────
 
-    // Fix TF Arrecada+ price if it still has old values
+    // Fix TF Arrecada+ price and ensure demoUrl is active
     const storedProds = JSON.parse(localStorage.getItem('tf_products')) || [];
     const arrecadaIdx = storedProds.findIndex(p => p.id === 'prod_arrecada');
-    if (arrecadaIdx !== -1 && (storedProds[arrecadaIdx].price !== 29.90 || storedProds[arrecadaIdx].promoPrice !== null)) {
+    if (arrecadaIdx !== -1) {
       storedProds[arrecadaIdx].price = 29.90;
       storedProds[arrecadaIdx].promoPrice = null;
+      storedProds[arrecadaIdx].demoUrl = 'https://thawfernandes.github.io/TF-Arrecada-/login';
+      storedProds[arrecadaIdx].downloadUrl = 'https://thawfernandes.github.io/TF-Arrecada-/';
+      storedProds[arrecadaIdx].metadata = storedProds[arrecadaIdx].metadata || {};
+      storedProds[arrecadaIdx].metadata.demoUrl = 'https://thawfernandes.github.io/TF-Arrecada-/login';
+      storedProds[arrecadaIdx].metadata.downloadUrl = 'https://thawfernandes.github.io/TF-Arrecada-/';
       localStorage.setItem('tf_products', JSON.stringify(storedProds));
+    }
+
+    // Ensure port_arrecada link points to login
+    const storedPort = JSON.parse(localStorage.getItem('tf_portfolio')) || [];
+    const portArrecadaIdx = storedPort.findIndex(p => p.id === 'port_arrecada');
+    if (portArrecadaIdx !== -1 && storedPort[portArrecadaIdx].link !== 'https://thawfernandes.github.io/TF-Arrecada-/login') {
+      storedPort[portArrecadaIdx].link = 'https://thawfernandes.github.io/TF-Arrecada-/login';
+      storedPort[portArrecadaIdx].images = [thumbnailService.getWebsiteScreenshot('https://thawfernandes.github.io/TF-Arrecada-/login')];
+      localStorage.setItem('tf_portfolio', JSON.stringify(storedPort));
     }
 
     // Remove fictional article/video content (cont_1, cont_2)

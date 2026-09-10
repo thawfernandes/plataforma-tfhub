@@ -287,23 +287,38 @@ export default function ClientDashboardView() {
                   </div>
                   
                   {canDownload(order.status) ? (
-                    (order.items[0]?.downloadUrl || order.items[0]?.metadata?.downloadUrl) ? (
-                      <a 
-                        href={order.items[0]?.downloadUrl || order.items[0]?.metadata?.downloadUrl} 
-                        className="btn btn-primary" 
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        download
-                      >
-                        <Download size={16} />
-                        <span>Baixar Arquivo / Acessar Sistema</span>
-                      </a>
-                    ) : (
-                      <span className={styles.notice} style={{ color: 'var(--success)', fontWeight: 600 }}>
-                        ✓ Acesso liberado (verifique as instruções por e-mail)
-                      </span>
-                    )
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      {(order.items[0]?.demoUrl || order.items[0]?.metadata?.demoUrl || order.items[0]?.name?.includes('Arrecada')) && (
+                        <a 
+                          href={order.items[0]?.demoUrl || order.items[0]?.metadata?.demoUrl || 'https://thawfernandes.github.io/TF-Arrecada-/login'} 
+                          className="btn btn-secondary" 
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ArrowUpRight size={16} style={{ color: 'var(--accent)' }} />
+                          <span>Entrar no Sistema Web</span>
+                        </a>
+                      )}
+
+                      {(order.items[0]?.downloadUrl || order.items[0]?.metadata?.downloadUrl) ? (
+                        <a 
+                          href={order.items[0]?.downloadUrl || order.items[0]?.metadata?.downloadUrl} 
+                          className="btn btn-primary" 
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download
+                        >
+                          <Download size={16} />
+                          <span>Baixar Arquivo / Instalador</span>
+                        </a>
+                      ) : (
+                        <span className={styles.notice} style={{ color: 'var(--success)', fontWeight: 600 }}>
+                          ✓ Acesso liberado (verifique as instruções por e-mail)
+                        </span>
+                      )}
+                    </div>
                   ) : (
                     <button className="btn btn-secondary" disabled style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', cursor: 'not-allowed' }}>
                       <Download size={16} />

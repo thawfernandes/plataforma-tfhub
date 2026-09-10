@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { mockDb } from '../../../services/mockDb';
-import { Eye, Filter } from 'lucide-react';
+import { Eye, Filter, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function ProductsListView() {
@@ -84,50 +84,67 @@ export default function ProductsListView() {
         gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
         gap: 'var(--spacing-lg)'
       }}>
-        {filteredProducts.map(product => (
-          <div key={product.id} className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <img 
-              src={product.images[0]} 
-              alt={product.name} 
-              style={{ width: '100%', height: '180px', objectFit: 'cover', borderRadius: 'var(--radius-sm)' }} 
-            />
-            <div style={{ padding: 'var(--spacing-sm) 0', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--accent)', textTransform: 'uppercase' }}>
-                {getTypeName(product.type)}
-              </span>
-              <h3 style={{ margin: 'var(--spacing-xs) 0' }}>{product.name}</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', flexGrow: 1 }}>{product.description}</p>
-              
-              <div style={{ marginTop: 'var(--spacing-md)', display: 'flex', alignItems: 'baseline', gap: 'var(--spacing-xs)' }}>
-                {product.promoPrice ? (
-                  <>
-                    <span style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent)' }}>
-                      R$ {product.promoPrice.toFixed(2)}
-                    </span>
-                    <span style={{ fontSize: '0.9rem', textDecoration: 'line-through', color: 'var(--text-muted)' }}>
+        {filteredProducts.map(product => {
+          const demoLink = product.demoUrl || product.metadata?.demoUrl || (product.slug === 'tf-arrecada-mais' || product.id === 'prod_arrecada' ? 'https://thawfernandes.github.io/TF-Arrecada-/login' : null);
+
+          return (
+            <div key={product.id} className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+              <img 
+                src={product.images[0]} 
+                alt={product.name} 
+                style={{ width: '100%', height: '180px', objectFit: 'cover', borderRadius: 'var(--radius-sm)' }} 
+              />
+              <div style={{ padding: 'var(--spacing-sm) 0', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--accent)', textTransform: 'uppercase' }}>
+                  {getTypeName(product.type)}
+                </span>
+                <h3 style={{ margin: 'var(--spacing-xs) 0' }}>{product.name}</h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', flexGrow: 1 }}>{product.description}</p>
+                
+                <div style={{ marginTop: 'var(--spacing-md)', display: 'flex', alignItems: 'baseline', gap: 'var(--spacing-xs)' }}>
+                  {product.promoPrice ? (
+                    <>
+                      <span style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent)' }}>
+                        R$ {product.promoPrice.toFixed(2)}
+                      </span>
+                      <span style={{ fontSize: '0.9rem', textDecoration: 'line-through', color: 'var(--text-muted)' }}>
+                        R$ {product.price.toFixed(2)}
+                      </span>
+                    </>
+                  ) : (
+                    <span style={{ fontSize: '1.25rem', fontWeight: 700 }}>
                       R$ {product.price.toFixed(2)}
                     </span>
-                  </>
-                ) : (
-                  <span style={{ fontSize: '1.25rem', fontWeight: 700 }}>
-                    R$ {product.price.toFixed(2)}
-                  </span>
-                )}
-              </div>
+                  )}
+                </div>
 
-              <div style={{ display: 'flex', gap: 'var(--spacing-sm)', marginTop: 'var(--spacing-md)' }}>
-                <Link 
-                  to={`/produtos/${product.slug}`} 
-                  className="btn btn-primary" 
-                  style={{ flexGrow: 1, textDecoration: 'none', textAlign: 'center', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-                >
-                  <Eye size={16} />
-                  <span>Ver Detalhes / Adquirir</span>
-                </Link>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'var(--spacing-md)' }}>
+                  {demoLink && (
+                    <a 
+                      href={demoLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-secondary btn-sm"
+                      style={{ textDecoration: 'none', textAlign: 'center', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px', width: '100%', fontWeight: 700 }}
+                    >
+                      <ExternalLink size={14} style={{ color: 'var(--accent)' }} />
+                      <span>Conhecer / Entrar no Sistema</span>
+                    </a>
+                  )}
+
+                  <Link 
+                    to={`/produtos/${product.slug}`} 
+                    className="btn btn-primary" 
+                    style={{ textDecoration: 'none', textAlign: 'center', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%' }}
+                  >
+                    <Eye size={16} />
+                    <span>Ver Detalhes / Adquirir</span>
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

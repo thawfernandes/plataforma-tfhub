@@ -15,7 +15,9 @@ import {
   ChevronRight, 
   Copy, 
   Check,
-  FileText
+  FileText,
+  ExternalLink,
+  Play
 } from 'lucide-react';
 import styles from './ProductDetailView.module.css';
 
@@ -392,10 +394,60 @@ export default function ProductDetailView() {
             )}
           </div>
 
-          <button className={styles.ctaBtn + " btn btn-primary"} onClick={handleStartCheckout}>
-            <Lock size={18} />
-            <span>Quero Adquirir</span>
-          </button>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '1.25rem' }}>
+            <button className={styles.ctaBtn + " btn btn-primary"} onClick={handleStartCheckout}>
+              <Lock size={18} />
+              <span>Quero Adquirir</span>
+            </button>
+
+            {(product.demoUrl || product.metadata?.demoUrl || product.slug === 'tf-arrecada-mais' || product.id === 'prod_arrecada') && (
+              <a 
+                href={product.demoUrl || product.metadata?.demoUrl || 'https://thawfernandes.github.io/TF-Arrecada-/login'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn btn-secondary"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 18px', borderRadius: '10px', fontWeight: 700, textDecoration: 'none' }}
+                title="Acessar o sistema para testar"
+              >
+                <ExternalLink size={18} style={{ color: 'var(--accent)' }} />
+                <span>Entrar / Conhecer o Sistema</span>
+              </a>
+            )}
+          </div>
+
+          {(product.demoUrl || product.metadata?.demoUrl || product.slug === 'tf-arrecada-mais' || product.id === 'prod_arrecada') && (
+            <div style={{ 
+              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(20, 22, 30, 0.9) 100%)', 
+              border: '1px solid rgba(212, 175, 55, 0.35)', 
+              borderRadius: '12px', 
+              padding: '12px 16px', 
+              marginTop: '1.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px',
+              flexWrap: 'wrap'
+            }}>
+              <div>
+                <strong style={{ color: 'var(--accent)', fontSize: '0.92rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span>✨</span> Demonstração Online Disponível
+                </strong>
+                <p style={{ margin: '3px 0 0', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+                  Acesse o sistema ao vivo para conhecer os recursos, fluxo de rifas e painel administrativo.
+                </p>
+              </div>
+              <a 
+                href={product.demoUrl || product.metadata?.demoUrl || 'https://thawfernandes.github.io/TF-Arrecada-/login'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn btn-primary btn-sm"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
+              >
+                <Play size={14} />
+                <span>Acessar Demo ({product.name})</span>
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
