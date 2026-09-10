@@ -1,0 +1,209 @@
+.section {
+  padding: 6rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.sectionHeader {
+  margin-bottom: 4rem;
+}
+
+.sectionEyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--text-primary);
+}
+
+.sectionSubtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 0.5rem;
+  max-width: 540px;
+}
+
+.membersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.memberRow {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+}
+
+.rowNormal {
+  flex-direction: row;
+}
+
+.rowReverse {
+  flex-direction: row-reverse;
+}
+
+.imageCol {
+  flex: 1;
+  max-width: 320px;
+}
+
+.contentCol {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.imageFrame {
+  position: relative;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  aspect-ratio: 1 / 1.1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+:global([data-theme="dark"]) .imageFrame {
+  background: radial-gradient(circle at center, rgba(244, 114, 182, 0.08) 0%, rgba(12, 11, 16, 0.6) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.imageFrame:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--accent);
+}
+
+.memberImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+  transition: transform 0.4s ease;
+}
+
+.imageFrame:hover .memberImage {
+  transform: scale(1.05);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,0.1) 0%, transparent 100%);
+}
+
+.roleTag {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: rgba(244, 114, 182, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  border: 1px solid rgba(244, 114, 182, 0.15);
+}
+
+.memberName {
+  font-size: clamp(1.8rem, 3.5vw, 2.25rem);
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin: -0.5rem 0 0;
+}
+
+.quoteBlock {
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--text-primary);
+  border-left: 3px solid var(--accent);
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+.description {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 680px;
+}
+
+.specialtiesWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.specialtiesLabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.specialtiesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.specialtyBadge {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  padding: 0.35rem 0.85rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.specialtyBadge:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .memberRow {
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 0;
+  }
+  .memberRow {
+    flex-direction: column !important;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  .imageCol {
+    width: 100%;
+    max-width: 240px;
+  }
+}

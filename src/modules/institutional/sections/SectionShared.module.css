@@ -1,0 +1,223 @@
+/* ─── Shared section styles for landing page ─────────────────────────────── */
+
+.section {
+  padding: 5rem 0;
+  position: relative;
+}
+
+.section:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+}
+
+/* Section Header */
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.sectionEyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--text-primary);
+}
+
+.sectionSubtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 0.5rem;
+  max-width: 480px;
+}
+
+.seeAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: color var(--transition-fast);
+  flex-shrink: 0;
+}
+.seeAll:hover { color: var(--accent); }
+
+/* Grid layouts */
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.grid4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+/* Alternate background */
+.sectionAlt {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Center variant */
+.sectionCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.sectionCenter .sectionHeader {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Step cards */
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  position: relative;
+}
+
+.stepsGrid::before {
+  content: '';
+  position: absolute;
+  top: 36px;
+  left: calc(25% / 2);
+  right: calc(25% / 2);
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  z-index: 0;
+}
+
+.stepCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+  transition: border-color 0.25s ease;
+}
+.stepCard:hover { border-color: var(--accent); }
+
+.stepNumber {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+}
+
+.stepTitle { font-size: 1rem; font-weight: 700; }
+.stepDesc  { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* CTA section */
+.ctaSection {
+  padding: 5rem 0;
+  text-align: center;
+}
+
+.ctaBox {
+  background: linear-gradient(135deg, rgba(124,58,237,0.1) 0%, rgba(244,114,182,0.07) 100%);
+  border: 1px solid rgba(244, 114, 182, 0.2);
+  border-radius: 20px;
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaBox::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(124,58,237,0.1) 0%, transparent 70%);
+}
+
+.ctaTitle {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.ctaSubtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+  position: relative;
+}
+
+.ctaActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .grid4 { grid-template-columns: repeat(2, 1fr); }
+  .stepsGrid { grid-template-columns: repeat(2, 1fr); }
+  .stepsGrid::before { display: none; }
+}
+
+@media (max-width: 768px) {
+  .section { padding: 3.5rem 0; }
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+  .grid4 { grid-template-columns: repeat(2, 1fr); }
+  .sectionHeader { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+
+@media (max-width: 520px) {
+  .grid4 { grid-template-columns: 1fr; }
+  .stepsGrid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,56 @@
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tab:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+
+.icon { display: flex; align-items: center; }
+.count {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  padding: 0.1rem 0.4rem;
+  border-radius: 99px;
+  border: 1px solid var(--border-color);
+}
+
+/* Variant: line (default) */
+.line {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0;
+  gap: 0;
+}
+.line .tab {
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0.625rem;
+  margin-bottom: -1px;
+}
+.line .tab:hover { background: transparent; }
+.line .active { color: var(--text-primary); border-bottom-color: var(--accent); }
+
+/* Variant: pill */
+.pill .tab { border-radius: 99px; }
+.pill .active { color: var(--text-primary); background: var(--bg-tertiary); }
+
+/* Variant: card */
+.card { border: 1px solid var(--border-color); border-radius: 10px; padding: 0.25rem; background: var(--bg-tertiary); }
+.card .tab { border-radius: 8px; flex: 1; justify-content: center; }
+.card .active { background: var(--bg-secondary); color: var(--text-primary); box-shadow: var(--shadow-sm); }

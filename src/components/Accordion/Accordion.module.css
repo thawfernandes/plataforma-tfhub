@@ -1,0 +1,40 @@
+.accordion { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
+}
+.isOpen { border-color: var(--accent); }
+
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.125rem 1.25rem;
+  text-align: left;
+  gap: 1rem;
+  color: var(--text-primary);
+  transition: background var(--transition-fast);
+}
+.trigger:hover { background: var(--bg-tertiary); }
+
+.triggerLabel { font-weight: 600; font-size: 0.95rem; line-height: 1.4; }
+
+.chevron { color: var(--text-muted); flex-shrink: 0; transition: transform 0.3s ease; }
+.rotated { transform: rotate(180deg); color: var(--accent); }
+
+.contentWrapper {
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content {
+  padding: 0 1.25rem 1.25rem;
+  color: var(--text-secondary);
+  font-size: 0.925rem;
+  line-height: 1.7;
+}

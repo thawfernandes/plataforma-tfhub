@@ -1,0 +1,49 @@
+{
+  "name": "TF Hub - Painel Administrativo",
+  "short_name": "TF Admin",
+  "description": "Aplicativo de Gestão, Controle e Atualização da Plataforma TF Hub",
+  "start_url": "/admin",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0B0C10",
+  "theme_color": "#D4AF37",
+  "orientation": "portrait-primary",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/phoenix.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Painel de Controle",
+      "short_name": "Painel",
+      "description": "Acessar o painel administrativo",
+      "url": "/admin",
+      "icons": [{ "src": "/favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Portfólio",
+      "short_name": "Portfólio",
+      "description": "Gerenciar projetos do portfólio",
+      "url": "/admin/portfolio",
+      "icons": [{ "src": "/favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Produtos & Sistemas",
+      "short_name": "Produtos",
+      "description": "Gerenciar produtos e sistemas",
+      "url": "/admin/produtos",
+      "icons": [{ "src": "/favicon.png", "sizes": "192x192" }]
+    }
+  ]
+}

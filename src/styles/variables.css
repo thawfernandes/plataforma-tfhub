@@ -1,0 +1,89 @@
+/* Design System — TF Hub Color Identity
+   Paleta: Roxo · Rosa · Prata · Neutros escuros
+*/
+:root {
+  /* Fonts */
+  --font-primary: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* ─── Color Palette — Dark Mode (Default) ─────────────────────────────── */
+  --bg-primary:   #0c0b10;
+  --bg-secondary: #13111a;
+  --bg-tertiary:  #1e1b27;
+  --border-color: #2d2840;
+
+  --text-primary:   #f1eff8;
+  --text-secondary: #9d96b8;
+  --text-muted:     #635d7a;
+
+  /* Brand — Primary: Roxo profundo */
+  --primary:       #7c3aed;
+  --primary-hover: #6d28d9;
+  --primary-light: rgba(124, 58, 237, 0.12);
+
+  /* Brand — Accent: Rosa claro / pêssego */
+  --accent:       #f472b6;
+  --accent-hover: #ec4899;
+  --accent-light: rgba(244, 114, 182, 0.12);
+
+  /* Brand — Silver: destaques de prata */
+  --silver:       #c4bdd6;
+  --silver-dim:   #8b849e;
+
+  /* Semantic */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger:  #ef4444;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.6);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.7);
+
+  /* Glow — usados em hovers e CTAs */
+  --glow-primary: 0 0 24px rgba(124, 58, 237, 0.4);
+  --glow-accent:  0 0 24px rgba(244, 114, 182, 0.35);
+
+  /* Layout & Spacing */
+  --spacing-xs:  0.5rem;
+  --spacing-sm:  0.75rem;
+  --spacing-md:  1.25rem;
+  --spacing-lg:  2rem;
+  --spacing-xl:  3.5rem;
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   20px;
+
+  /* Transitions */
+  --transition-fast:   0.15s ease;
+  --transition-normal: 0.3s ease;
+}
+
+/* ─── Light Theme ────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-primary:   #faf9fc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary:  #f3f0f8;
+  --border-color: #ddd8ec;
+
+  --text-primary:   #1a1625;
+  --text-secondary: #524b6e;
+  --text-muted:     #8278a0;
+
+  --primary:       #7c3aed;
+  --primary-hover: #6d28d9;
+  --primary-light: rgba(124, 58, 237, 0.08);
+
+  --accent:       #ec4899;
+  --accent-hover: #db2777;
+  --accent-light: rgba(236, 72, 153, 0.08);
+
+  --silver:    #6b6480;
+  --silver-dim: #9990aa;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+
+  --glow-primary: 0 0 20px rgba(124, 58, 237, 0.2);
+  --glow-accent:  0 0 20px rgba(236, 72, 153, 0.2);
+}

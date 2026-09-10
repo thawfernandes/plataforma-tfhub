@@ -1,0 +1,39 @@
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--border-color) 50%, var(--bg-tertiary) 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+.text   { height: 14px; border-radius: 4px; margin-bottom: 0.5rem; }
+.rect   { border-radius: 10px; }
+.circle { border-radius: 50%; }
+
+.group { display: flex; flex-direction: column; }
+
+/* Card skeleton */
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.cardImg  { height: 180px; border-radius: 0; }
+.cardBody { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  border: 2.5px solid var(--border-color);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
