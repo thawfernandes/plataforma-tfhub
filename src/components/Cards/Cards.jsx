@@ -170,20 +170,15 @@ export function PortfolioCard({ project, onLearnMore }) {
           <div style={{ flex: 1 }} />
         )}
         
-        <Link
-          to={`/portfolio/${project.slug || project.id}`}
-          onClick={(e) => {
-            if (onLearnMore) {
-              e.preventDefault();
-              onLearnMore(project);
-            }
-          }}
+        <button
+          type="button"
+          onClick={() => onLearnMore && onLearnMore(project)}
           className="btn btn-primary btn-sm"
           style={{ padding: '6px 12px', fontSize: '0.8rem', flex: 1, gap: '4px' }}
         >
           <span>Saiba Mais</span>
           <ArrowRight size={12} />
-        </Link>
+        </button>
       </div>
     </article>
   );

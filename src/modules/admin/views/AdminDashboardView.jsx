@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { mockDb } from '../../../services/mockDb';
 import { youtubeService } from '../../../services/youtubeService';
 import { emailService } from '../../../services/emailService';
@@ -94,6 +95,46 @@ export default function AdminDashboardView() {
     youtubeChannelId: '',
     youtubeApiKey: ''
   });
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Sync activeTab with current URL route
+  useEffect(() => {
+    const path = location.pathname;
+    if (path.includes('/admin/produtos')) setActiveTab('products');
+    else if (path.includes('/admin/pedidos') || path.includes('/admin/solicitacoes')) setActiveTab('orders');
+    else if (path.includes('/admin/servicos') || path.includes('/admin/orcamentos')) setActiveTab('quotes');
+    else if (path.includes('/admin/conteudo')) setActiveTab('content');
+    else if (path.includes('/admin/portfolio')) setActiveTab('portfolio');
+    else if (path.includes('/admin/equipe')) setActiveTab('team');
+    else if (path.includes('/admin/certificados')) setActiveTab('recognitions');
+    else if (path.includes('/admin/depoimentos')) setActiveTab('testimonials');
+    else if (path.includes('/admin/faq')) setActiveTab('faq');
+    else if (path.includes('/admin/configuracoes')) setActiveTab('settings');
+    else setActiveTab('stats');
+  }, [location.pathname]);
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    resetForm();
+    const routeMap = {
+      stats: '/admin',
+      products: '/admin/produtos',
+      orders: '/admin/pedidos',
+      quotes: '/admin/servicos',
+      content: '/admin/conteudo',
+      portfolio: '/admin/portfolio',
+      team: '/admin/equipe',
+      recognitions: '/admin/certificados',
+      testimonials: '/admin/depoimentos',
+      faq: '/admin/faq',
+      settings: '/admin/configuracoes'
+    };
+    if (routeMap[tab] && location.pathname !== routeMap[tab]) {
+      navigate(routeMap[tab]);
+    }
+  };
 
   useEffect(() => { loadAllData(); }, []);
 
@@ -392,7 +433,7 @@ export default function AdminDashboardView() {
           <button
             key={tab}
             className={`${styles.tabBtn} ${activeTab === tab ? styles.activeTab : ''}`}
-            onClick={() => { setActiveTab(tab); resetForm(); }}
+            onClick={() => handleTabChange(tab)}
           >
             {{ 
               stats:'Estatísticas', 

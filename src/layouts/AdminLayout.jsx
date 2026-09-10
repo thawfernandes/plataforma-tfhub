@@ -21,9 +21,11 @@ export default function AdminLayout() {
   const navItems = [
     { label: 'Dashboard', path: '/admin', icon: <LayoutDashboard size={18} /> },
     { label: 'Produtos', path: '/admin/produtos', icon: <ShoppingBag size={18} /> },
+    { label: 'Solicitações Vendas', path: '/admin/pedidos', icon: <ShoppingBag size={18} /> },
     { label: 'Serviços & Leads', path: '/admin/servicos', icon: <Briefcase size={18} /> },
     { label: 'Publicações', path: '/admin/conteudo', icon: <FileText size={18} /> },
     { label: 'Portfólio', path: '/admin/portfolio', icon: <FolderGit size={18} /> },
+    { label: 'Equipe', path: '/admin/equipe', icon: <Users size={18} /> },
     { label: 'Certificados', path: '/admin/certificados', icon: <Award size={18} /> },
     { label: 'Depoimentos', path: '/admin/depoimentos', icon: <MessageSquare size={18} /> },
     { label: 'FAQ', path: '/admin/faq', icon: <HelpCircle size={18} /> },

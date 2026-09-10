@@ -63,14 +63,26 @@ export default function PwaInstallPrompt({ compact = false }) {
     }
   };
 
+  const getAdminUrl = () => {
+    if (typeof window !== 'undefined') {
+      const origin = window.location.origin;
+      const pathname = window.location.pathname.endsWith('/') 
+        ? window.location.pathname 
+        : window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+      return `${origin}${pathname}#/admin`;
+    }
+    return 'https://thawfernandes.github.io/plataforma-tfhub/#/admin';
+  };
+
   const handleCopyLink = () => {
-    const url = window.location.origin + '/admin';
+    const url = getAdminUrl();
     navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
 
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(window.location.origin + '/admin')}&bgcolor=14-16-20&color=212-175-55`;
+  const adminUrl = getAdminUrl();
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(adminUrl)}&bgcolor=255-255-255&color=10-14-22&margin=6`;
 
   if (compact) {
     return (

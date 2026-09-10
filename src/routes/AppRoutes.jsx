@@ -50,9 +50,11 @@ export default function AppRoutes() {
       }>
         <Route index element={<AdminDashboardView />} />
         <Route path="produtos" element={<AdminDashboardView />} />
+        <Route path="pedidos" element={<AdminDashboardView />} />
         <Route path="servicos" element={<AdminDashboardView />} />
         <Route path="conteudo" element={<AdminDashboardView />} />
         <Route path="portfolio" element={<AdminDashboardView />} />
+        <Route path="equipe" element={<AdminDashboardView />} />
         <Route path="certificados" element={<AdminDashboardView />} />
         <Route path="depoimentos" element={<AdminDashboardView />} />
         <Route path="faq" element={<AdminDashboardView />} />

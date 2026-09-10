@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { mockDb } from '../../../services/mockDb';
 import { 
@@ -153,8 +154,8 @@ export default function ClientDashboardView() {
                 Assim que você adquirir um sistema ou solicitar um serviço, o progresso, downloads e mensagens aparecerão aqui em tempo real.
               </p>
               <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                <a href="#/produtos" className="btn btn-primary btn-sm">Ver Sistemas e Produtos</a>
-                <a href="#/servicos" className="btn btn-secondary btn-sm">Solicitar Orçamento</a>
+                <Link to="/produtos" className="btn btn-primary btn-sm">Ver Sistemas e Produtos</Link>
+                <Link to="/servicos" className="btn btn-secondary btn-sm">Solicitar Orçamento</Link>
               </div>
             </div>
           ) : (
@@ -286,9 +287,9 @@ export default function ClientDashboardView() {
                   </div>
                   
                   {canDownload(order.status) ? (
-                    order.items[0]?.metadata?.downloadUrl ? (
+                    (order.items[0]?.downloadUrl || order.items[0]?.metadata?.downloadUrl) ? (
                       <a 
-                        href={order.items[0].metadata.downloadUrl} 
+                        href={order.items[0]?.downloadUrl || order.items[0]?.metadata?.downloadUrl} 
                         className="btn btn-primary" 
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                         target="_blank"

@@ -52,9 +52,20 @@ export const emailService = {
     return { mockSent: true };
   },
 
+  getBaseUrl() {
+    if (typeof window !== 'undefined') {
+      const origin = window.location.origin;
+      const pathname = window.location.pathname.endsWith('/') 
+        ? window.location.pathname 
+        : window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+      return `${origin}${pathname}`;
+    }
+    return 'https://thawfernandes.github.io/plataforma-tfhub/';
+  },
+
   sendNewOrderEmail(order) {
     const adminEmail = 'tfhubdesign@gmail.com';
-    const clientLink = `${window.location.origin}/admin?tab=orders&id=${order.id}`;
+    const adminLink = `${this.getBaseUrl()}#/admin/pedidos`;
     const html = `
       <div style="font-family: sans-serif; padding: 20px; color: #333; max-width: 600px; border: 1px solid #ddd; border-radius: 8px;">
         <h2 style="color: #7c3aed; margin-top: 0;">Nova solicitação de compra recebida!</h2>
@@ -91,7 +102,7 @@ export const emailService = {
           </tr>
         </table>
         <p style="margin-top: 25px;">
-          <a href="${clientLink}" style="background-color: #7c3aed; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Abrir Solicitação no Painel</a>
+          <a href="${adminLink}" style="background-color: #7c3aed; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Abrir Solicitação no Painel</a>
         </p>
       </div>
     `;
@@ -99,6 +110,7 @@ export const emailService = {
   },
 
   sendOrderReceivedEmail(order) {
+    const clientLink = `${this.getBaseUrl()}#/cliente`;
     const html = `
       <div style="font-family: sans-serif; padding: 20px; color: #333; max-width: 600px; border: 1px solid #ddd; border-radius: 8px;">
         <h2 style="color: #7c3aed; margin-top: 0;">Recebemos sua solicitação, ${order.clientName}!</h2>
@@ -110,7 +122,7 @@ export const emailService = {
           <li>Valor total: R$ ${order.total.toFixed(2)}</li>
           <li>Status atual: <strong>${order.status}</strong></li>
         </ul>
-        <p>Você pode acompanhar o progresso em tempo real, ver o contrato digital e enviar mensagens na sua <a href="${window.location.origin}/cliente">Área do Cliente</a>.</p>
+        <p>Você pode acompanhar o progresso em tempo real, ver o contrato digital e enviar mensagens na sua <a href="${clientLink}">Área do Cliente</a>.</p>
         <p>Abraços,<br/>Equipe TF Hub</p>
       </div>
     `;
@@ -118,6 +130,7 @@ export const emailService = {
   },
 
   sendPaymentApprovedEmail(order) {
+    const clientLink = `${this.getBaseUrl()}#/cliente`;
     const html = `
       <div style="font-family: sans-serif; padding: 20px; color: #333; max-width: 600px; border: 1px solid #ddd; border-radius: 8px;">
         <h2 style="color: #10b981; margin-top: 0;">Seu pagamento foi confirmado! 🎉</h2>
@@ -125,7 +138,7 @@ export const emailService = {
         <p>Confirmamos o recebimento do seu pagamento para o produto <strong>${order.items[0]?.name}</strong>.</p>
         <p><strong>O que acontece agora?</strong></p>
         <ul>
-          <li>Se o produto for digital ou sistema, o download já está liberado na sua <a href="${window.location.origin}/cliente">Área do Cliente</a>!</li>
+          <li>Se o produto for digital ou sistema, o download já está liberado na sua <a href="${clientLink}">Área do Cliente</a>!</li>
           <li>Se for um projeto sob desenvolvimento, nossa equipe dará início à produção imediatamente.</li>
         </ul>
         <p>Acesse o painel para realizar downloads ou enviar mensagens diretamente para nossa equipe.</p>
@@ -136,6 +149,7 @@ export const emailService = {
   },
 
   sendStatusUpdatedEmail(order, oldStatus) {
+    const clientLink = `${this.getBaseUrl()}#/cliente`;
     const html = `
       <div style="font-family: sans-serif; padding: 20px; color: #333; max-width: 600px; border: 1px solid #ddd; border-radius: 8px;">
         <h2 style="color: #7c3aed; margin-top: 0;">Atualização no seu pedido!</h2>
@@ -145,7 +159,7 @@ export const emailService = {
           Status anterior: <span style="text-decoration: line-through; color: #6b7280;">${oldStatus}</span><br/>
           <strong>Novo status: <span style="color: #7c3aed;">${order.status}</span></strong>
         </p>
-        <p>Acompanhe todos os detalhes do projeto e a linha do tempo completa na sua <a href="${window.location.origin}/cliente">Área do Cliente</a>.</p>
+        <p>Acompanhe todos os detalhes do projeto e a linha do tempo completa na sua <a href="${clientLink}">Área do Cliente</a>.</p>
         <p>Abraços,<br/>Equipe TF Hub</p>
       </div>
     `;
