@@ -53,9 +53,17 @@ export default function ProductDetailView() {
   // Load product data
   useEffect(() => {
     const list = mockDb.get('products') || [];
-    const found = list.find(p => p.slug === slug);
+    const normalizedSlug = (slug || '').toLowerCase().trim();
+    const found = list.find(p => 
+      p.slug === slug || 
+      p.id === slug || 
+      (p.slug && p.slug.toLowerCase() === normalizedSlug) ||
+      (normalizedSlug.includes('arrecada') && (p.id === 'prod_arrecada' || p.slug?.includes('arrecada') || p.name?.includes('Arrecada')))
+    );
     if (found) {
       setProduct(found);
+    } else if (list.length > 0) {
+      setProduct(list[0]);
     }
     setLoading(false);
   }, [slug]);

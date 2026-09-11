@@ -35,7 +35,7 @@ const INITIAL_PRODUCTS = [
     demoUrl: 'https://thawfernandes.github.io/TF-Arrecada-/login',
     downloadUrl: 'https://thawfernandes.github.io/TF-Arrecada-/',
     description: 'Sistema desenvolvido para gerenciamento de rifas e arrecadações, oferecendo uma experiência simples, organizada e intuitiva.',
-    images: ['https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&auto=format&fit=crop'],
+    images: [thumbnailService.getWebsiteScreenshot('https://thawfernandes.github.io/TF-Arrecada-/login')],
     categories: ['Sistemas', 'Rifas'],
     seo: { title: 'TF Arrecada+ - Sistema de Rifas e Arrecadações', description: 'Sistema moderno e intuitivo para arrecadações.' },
     metadata: {
@@ -408,14 +408,18 @@ class MockDb {
 
     // ─── Data-cleanup migrations (remove fictional/placeholder data) ──────────
 
-    // Fix TF Arrecada+ price and ensure demoUrl is active
+    // Fix TF Arrecada+ price, image and ensure demoUrl is active
     const storedProds = JSON.parse(localStorage.getItem('tf_products')) || [];
-    const arrecadaIdx = storedProds.findIndex(p => p.id === 'prod_arrecada');
+    const arrecadaIdx = storedProds.findIndex(p => p.id === 'prod_arrecada' || p.slug === 'tf-arrecada-mais' || p.name?.includes('Arrecada'));
     if (arrecadaIdx !== -1) {
+      storedProds[arrecadaIdx].id = 'prod_arrecada';
+      storedProds[arrecadaIdx].name = 'TF Arrecada+';
+      storedProds[arrecadaIdx].slug = 'tf-arrecada-mais';
       storedProds[arrecadaIdx].price = 29.90;
       storedProds[arrecadaIdx].promoPrice = null;
       storedProds[arrecadaIdx].demoUrl = 'https://thawfernandes.github.io/TF-Arrecada-/login';
       storedProds[arrecadaIdx].downloadUrl = 'https://thawfernandes.github.io/TF-Arrecada-/';
+      storedProds[arrecadaIdx].images = [thumbnailService.getWebsiteScreenshot('https://thawfernandes.github.io/TF-Arrecada-/login')];
       storedProds[arrecadaIdx].metadata = storedProds[arrecadaIdx].metadata || {};
       storedProds[arrecadaIdx].metadata.demoUrl = 'https://thawfernandes.github.io/TF-Arrecada-/login';
       storedProds[arrecadaIdx].metadata.downloadUrl = 'https://thawfernandes.github.io/TF-Arrecada-/';
