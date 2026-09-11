@@ -24,24 +24,33 @@ export default function LoginView() {
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
-  const handleLoginSubmit = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
     setSuccessMsg('');
+    setLoading(true);
 
-    const res = loginWithCredentials(loginEmail, loginPassword);
-    if (res.success) {
-      if (res.user.role === 'admin') {
-        navigate('/admin');
+    try {
+      const res = await loginWithCredentials(loginEmail, loginPassword);
+      if (res.success) {
+        if (res.user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/cliente');
+        }
       } else {
-        navigate('/cliente');
+        setErrorMsg(res.message || 'Falha ao autenticar.');
       }
-    } else {
-      setErrorMsg(res.message || 'Falha ao autenticar.');
+    } catch (err) {
+      setErrorMsg('Erro de conexão ao autenticar.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
     setSuccessMsg('');
@@ -51,20 +60,28 @@ export default function LoginView() {
       return;
     }
 
-    const res = registerClient({
-      name: registerName,
-      email: registerEmail,
-      phone: registerPhone,
-      password: registerPassword
-    });
+    setLoading(true);
 
-    if (res.success) {
-      setSuccessMsg('Conta criada com sucesso! Redirecionando para sua área...');
-      setTimeout(() => {
-        navigate('/cliente');
-      }, 1000);
-    } else {
-      setErrorMsg(res.message || 'Erro ao criar conta.');
+    try {
+      const res = await registerClient({
+        name: registerName,
+        email: registerEmail,
+        phone: registerPhone,
+        password: registerPassword
+      });
+
+      if (res.success) {
+        setSuccessMsg('Conta criada com sucesso! Redirecionando para sua área...');
+        setTimeout(() => {
+          navigate('/cliente');
+        }, 800);
+      } else {
+        setErrorMsg(res.message || 'Erro ao criar conta.');
+      }
+    } catch (err) {
+      setErrorMsg('Erro ao conectar com a nuvem.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -218,8 +235,8 @@ export default function LoginView() {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '12px', fontSize: '0.95rem', fontWeight: 700, marginTop: '6px' }}>
-              <span>Entrar na Plataforma</span>
+            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '12px', fontSize: '0.95rem', fontWeight: 700, marginTop: '6px' }} disabled={loading}>
+              <span>{loading ? 'Conectando e sincronizando...' : 'Entrar na Plataforma'}</span>
               <ArrowRight size={16} />
             </button>
           </form>
@@ -294,8 +311,8 @@ export default function LoginView() {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '12px', fontSize: '0.95rem', fontWeight: 700, marginTop: '6px' }}>
-              <span>Criar Minha Conta de Cliente</span>
+            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '12px', fontSize: '0.95rem', fontWeight: 700, marginTop: '6px' }} disabled={loading}>
+              <span>{loading ? 'Cadastrando e sincronizando...' : 'Criar Minha Conta de Cliente'}</span>
               <ArrowRight size={16} />
             </button>
           </form>

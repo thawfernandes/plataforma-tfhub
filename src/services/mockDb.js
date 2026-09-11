@@ -1,5 +1,6 @@
 import { INITIAL_RECOGNITIONS } from './recognitionsData';
 import { thumbnailService } from './thumbnailService';
+import { cloudDbService } from './cloudDbService';
 import thawannyImg from '../assets/thawanny.png';
 import fabianaImg from '../assets/fabiana.png';
 
@@ -484,6 +485,7 @@ class MockDb {
 
   save(key, data) {
     localStorage.setItem(`tf_${key}`, JSON.stringify(data));
+    cloudDbService.pushToCloud(key, data);
   }
 
   // Generic helper for adding/editing elements in list keys

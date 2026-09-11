@@ -15,7 +15,7 @@ export default function CartView() {
       navigate('/login');
       return;
     }
-    const order = checkout(user.id);
+    const order = checkout(user);
     if (order) {
       alert('Compra finalizada com sucesso! Acompanhe seu pedido na Área do Cliente.');
       navigate('/cliente');

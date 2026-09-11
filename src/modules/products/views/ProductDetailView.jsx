@@ -212,12 +212,13 @@ export default function ProductDetailView() {
   // Save lead in DB (for WhatsApp checkout or tracking)
   const saveLeadOrder = (preferredContact) => {
     const orders = mockDb.get('orders') || [];
+    const cleanEmail = clientForm.email.trim().toLowerCase();
     const newLead = {
       id: `ord_${Date.now()}`,
-      userId: user ? user.id : 'user_client',
-      clientName: clientForm.name,
-      clientEmail: clientForm.email,
-      clientPhone: clientForm.phone,
+      userId: user ? user.id : `usr_${cleanEmail.replace(/[^a-z0-9]/g, '_')}`,
+      clientName: clientForm.name.trim(),
+      clientEmail: cleanEmail,
+      clientPhone: clientForm.phone.trim(),
       preferredContact: preferredContact,
       items: [{
         id: product.id,
@@ -297,12 +298,13 @@ export default function ProductDetailView() {
     const allOrders = mockDb.get('orders') || [];
     const settings = mockDb.get('settings') || {};
 
+    const cleanEmail = clientForm.email.trim().toLowerCase();
     const newOrder = {
       id: `ord_${Date.now()}`,
-      userId: user ? user.id : 'user_client',
-      clientName: clientForm.name,
-      clientEmail: clientForm.email,
-      clientPhone: clientForm.phone,
+      userId: user ? user.id : `usr_${cleanEmail.replace(/[^a-z0-9]/g, '_')}`,
+      clientName: clientForm.name.trim(),
+      clientEmail: cleanEmail,
+      clientPhone: clientForm.phone.trim(),
       preferredContact: clientForm.preferredContact,
       items: [{
         id: product.id,

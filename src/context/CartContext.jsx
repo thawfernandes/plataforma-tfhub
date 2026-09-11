@@ -46,20 +46,31 @@ export const CartProvider = ({ children }) => {
     return acc + (itemPrice * item.quantity);
   }, 0);
 
-  const checkout = (userId) => {
+  const checkout = (userOrId) => {
     if (cartItems.length === 0) return null;
     
+    const userId = typeof userOrId === 'object' ? userOrId?.id : userOrId;
+    const clientEmail = typeof userOrId === 'object' ? userOrId?.email?.trim().toLowerCase() : '';
+    const clientName = typeof userOrId === 'object' ? userOrId?.name : '';
+
     const orders = mockDb.get('orders') || [];
     const newOrder = {
       id: `ord_${Date.now()}`,
       userId: userId || 'anonymous',
+      clientEmail: clientEmail || '',
+      clientName: clientName || '',
       items: cartItems,
       total: cartTotal,
-      status: 'pending', // pending, completed, cancelled
+      status: 'Pagamento aprovado', // Cart checkout default
+      timeline: [
+        { title: 'Pedido realizado', date: new Date().toISOString(), description: 'Compra finalizada pelo carrinho com sucesso.' },
+        { title: 'Pagamento aprovado', date: new Date().toISOString(), description: 'Acesso e downloads liberados.' }
+      ],
+      messages: [],
       createdAt: new Date().toISOString()
     };
     
-    orders.push(newOrder);
+    orders.unshift(newOrder);
     mockDb.save('orders', orders);
     clearCart();
     return newOrder;

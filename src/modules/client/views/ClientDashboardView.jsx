@@ -2,9 +2,10 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { mockDb } from '../../../services/mockDb';
+import { cloudDbService } from '../../../services/cloudDbService';
 import { 
   Download, Award, FileText, Send, Check, 
-  ArrowUpRight, MessageSquare, Info, Calendar, DollarSign
+  ArrowUpRight, MessageSquare, Info, Calendar, DollarSign, Cloud, RefreshCw
 } from 'lucide-react';
 import styles from './ClientDashboardView.module.css';
 
@@ -13,6 +14,7 @@ export default function ClientDashboardView() {
   const [orders, setOrders] = useState([]);
   const [quotes, setQuotes] = useState([]);
   const [certificates, setCertificates] = useState([]);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   // Client Chat Reply State
   const [clientReply, setClientReply] = useState({});
@@ -23,13 +25,30 @@ export default function ClientDashboardView() {
     if (!user) return;
     loadDashboardData();
 
-    // Listen for real-time local updates from simulator
-    const handleOrderUpdate = () => {
+    // Trigger cloud sync for this user
+    if (user.email) {
+      cloudDbService.syncOnLogin(user.email);
+    }
+
+    // Listen for real-time cloud and local updates
+    const handleDataUpdate = () => {
       loadDashboardData();
     };
-    window.addEventListener('tf_order_updated', handleOrderUpdate);
-    return () => window.removeEventListener('tf_order_updated', handleOrderUpdate);
+
+    window.addEventListener('tf_order_updated', handleDataUpdate);
+    window.addEventListener('tf_cloud_synced', handleDataUpdate);
+    return () => {
+      window.removeEventListener('tf_order_updated', handleDataUpdate);
+      window.removeEventListener('tf_cloud_synced', handleDataUpdate);
+    };
   }, [user]);
+
+  const handleManualSync = async () => {
+    setIsSyncing(true);
+    await cloudDbService.syncAll();
+    loadDashboardData();
+    setTimeout(() => setIsSyncing(false), 800);
+  };
 
   const loadDashboardData = () => {
     const allOrders = mockDb.get('orders') || [];
@@ -129,15 +148,46 @@ export default function ClientDashboardView() {
   return (
     <div className={styles.clientContainer + " container"}>
       {/* Profile Header */}
-      <div className={styles.profileHeader}>
-        <img 
-          src={user?.avatar} 
-          alt={user?.name} 
-          className={styles.avatar} 
-        />
-        <div>
-          <h1 className={styles.welcomeTitle}>Olá, {user?.name}!</h1>
-          <p className={styles.subtitle}>Bem-vindo à sua Área do Cliente TF Hub. Acompanhe seus projetos e compras.</p>
+      <div className={styles.profileHeader} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <img 
+            src={user?.avatar} 
+            alt={user?.name} 
+            className={styles.avatar} 
+          />
+          <div>
+            <h1 className={styles.welcomeTitle}>Olá, {user?.name}!</h1>
+            <p className={styles.subtitle}>Bem-vindo à sua Área do Cliente TF Hub. Acompanhe seus projetos e compras.</p>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ 
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            gap: '6px', 
+            fontSize: '0.78rem', 
+            fontWeight: 600, 
+            color: 'var(--accent)', 
+            background: 'rgba(212, 175, 55, 0.12)', 
+            border: '1px solid rgba(212, 175, 55, 0.3)', 
+            padding: '6px 12px', 
+            borderRadius: '20px' 
+          }}>
+            <Cloud size={14} />
+            <span>Nuvem Multi-Dispositivo Ativa</span>
+          </span>
+
+          <button 
+            onClick={handleManualSync}
+            className="btn btn-secondary btn-sm"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', padding: '6px 12px' }}
+            title="Sincronizar compras e dados agora"
+            disabled={isSyncing}
+          >
+            <RefreshCw size={13} style={{ animation: isSyncing ? 'spin 1s linear infinite' : 'none' }} />
+            <span>{isSyncing ? 'Sincronizando...' : 'Sincronizar'}</span>
+          </button>
         </div>
       </div>
 
