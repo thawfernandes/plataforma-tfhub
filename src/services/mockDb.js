@@ -42,8 +42,8 @@ const INITIAL_PRODUCTS = [
       demoUrl: 'https://thawfernandes.github.io/TF-Arrecada-/login',
       downloadUrl: 'https://thawfernandes.github.io/TF-Arrecada-/',
       fullDescription: 'O TF Arrecada+ é um sistema completo e de alta performance desenvolvido para quem deseja gerenciar campanhas de rifas, sorteios e arrecadações coletivas com total segurança, transparência e profissionalismo. Com interface limpa e intuitiva, facilita tanto a criação quanto a participação de doadores e compradores.',
-      features: 'Criação de campanhas personalizadas com metas de arrecadação\nSistema automatizado de escolha de números de rifa\nIntegração simples para chaves PIX de recebimento\nPainel financeiro para controle de arrecadações em tempo real\nDesign totalmente responsivo para celulares e computadores\nExportação de relatórios de doadores e participantes em PDF e Excel',
-      requirements: 'Servidor com suporte a PHP 8.1+ ou Node.js (conforme versão de build)\nBanco de dados MySQL 8.0+ ou PostgreSQL\nConexão com internet ativa para integração de notificações',
+      features: 'Realização de sorteios automatizados diretamente na própria plataforma (sorteador integrado em tempo real)\nCriação de campanhas personalizadas com metas de arrecadação\nSistema automatizado de escolha e reserva de números de rifa\nIntegração simples para chaves PIX de recebimento imediato\nPainel financeiro com controle de arrecadações em tempo real\nDesign 100% responsivo para celulares, tablets e computadores\nExportação de relatórios de doadores e participantes em PDF e Excel',
+      requirements: 'Apenas um dispositivo conectado à internet (Celular, Tablet ou Computador)\nNavegador web moderno (Google Chrome, Safari, Edge, Opera ou Firefox)\nSem necessidade de servidores complexos ou instalações pesadas (100% pronto para uso)',
       faqs: 'Como recebo o sistema após a compra? | Após a aprovação do seu comprovante de pagamento, o instalador e código-fonte estarão liberados imediatamente na sua Área do Cliente.\nO sistema possui limite de campanhas ou rifas? | Não, o sistema é seu para uso vitalício, permitindo criar quantas campanhas e rifas desejar sem custos adicionais.\nComo é feito o suporte e atualizações? | Você terá 6 meses de suporte gratuito para instalação e configurações, além de atualizações gratuitas para correções de segurança.',
       futureVersions: 'Integração automática com gateways de pagamento (Mercado Pago / Stripe)\nSistema de cotas premiadas e bilhetes da sorte automáticos\nDisparo de notificações automáticas via WhatsApp API'
     }
@@ -408,7 +408,7 @@ class MockDb {
 
     // ─── Data-cleanup migrations (remove fictional/placeholder data) ──────────
 
-    // Fix TF Arrecada+ price, image and ensure demoUrl is active
+    // Fix TF Arrecada+ price, image, features and ensure demoUrl is active
     const storedProds = JSON.parse(localStorage.getItem('tf_products')) || [];
     const arrecadaIdx = storedProds.findIndex(p => p.id === 'prod_arrecada' || p.slug === 'tf-arrecada-mais' || p.name?.includes('Arrecada'));
     if (arrecadaIdx !== -1) {
@@ -423,6 +423,8 @@ class MockDb {
       storedProds[arrecadaIdx].metadata = storedProds[arrecadaIdx].metadata || {};
       storedProds[arrecadaIdx].metadata.demoUrl = 'https://thawfernandes.github.io/TF-Arrecada-/login';
       storedProds[arrecadaIdx].metadata.downloadUrl = 'https://thawfernandes.github.io/TF-Arrecada-/';
+      storedProds[arrecadaIdx].metadata.features = 'Realização de sorteios automatizados diretamente na própria plataforma (sorteador integrado em tempo real)\nCriação de campanhas personalizadas com metas de arrecadação\nSistema automatizado de escolha e reserva de números de rifa\nIntegração simples para chaves PIX de recebimento imediato\nPainel financeiro com controle de arrecadações em tempo real\nDesign 100% responsivo para celulares, tablets e computadores\nExportação de relatórios de doadores e participantes em PDF e Excel';
+      storedProds[arrecadaIdx].metadata.requirements = 'Apenas um dispositivo conectado à internet (Celular, Tablet ou Computador)\nNavegador web moderno (Google Chrome, Safari, Edge, Opera ou Firefox)\nSem necessidade de servidores complexos ou instalações pesadas (100% pronto para uso)';
       localStorage.setItem('tf_products', JSON.stringify(storedProds));
     }
 

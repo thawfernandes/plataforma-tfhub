@@ -74,14 +74,14 @@ export default function ProductsListView() {
               {featuredSystem.description}
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '1.5rem', fontSize: '0.88rem', color: 'var(--text-primary)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '1.5rem', fontSize: '0.88rem', color: 'var(--text-primary)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <CheckCircle2 size={16} style={{ color: 'var(--accent)', flexShrink: 0 }} />
-                <span>Gestão completa de rifas, sorteios e arrecadações</span>
+                <span>Gestão completa de rifas e <strong>realização de sorteios diretamente no próprio sistema</strong></span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <CheckCircle2 size={16} style={{ color: 'var(--accent)', flexShrink: 0 }} />
-                <span>Interface moderna, 100% responsiva para celular e computador</span>
+                <span><strong>Requisito simples:</strong> só precisa de qualquer dispositivo conectado à internet (celular, tablet ou PC)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <CheckCircle2 size={16} style={{ color: 'var(--accent)', flexShrink: 0 }} />
